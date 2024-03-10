@@ -1,0 +1,34 @@
+version: "3.7"
+services:
+  financial_api:
+    build: .
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - springapimysql-net
+    environment:
+      - spring.datasource.url=jdbc:mysql://financial_db:3306/financial?allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=financial_user
+      - SPRING_DATASOURCE_PASSWORD=financial_password
+    depends_on:
+      - financial_db
+
+    volumes:
+      - .m2:/root/.m2
+
+  financial_db:
+    image: "mysql:8.0"
+    restart: always
+    ports:
+      - "3306:3306"
+    networks:
+      - springapimysql-net
+    environment:
+      MYSQL_DATABASE: financial
+      MYSQL_USER: financial_user
+      MYSQL_PASSWORD: financial_password
+      MYSQL_ROOT_PASSWORD: root-password
+
+networks:
+  springapimysql-net:

@@ -1,5 +1,6 @@
 plugins {
 	id 'java'
+	id 'application'
 	id 'org.springframework.boot' version '3.2.3'
 	id 'io.spring.dependency-management' version '1.1.4'
 }
@@ -24,4 +25,17 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+jar {
+	manifest {
+		attributes(
+				'Main-Class': 'dev/andrearaujo/FinanceTrackerApplication'
+		)
+	}
+}
+
+
+application {
+	mainClassName = 'dev.andrearaujo.FinanceTrackerApplication'
 }
