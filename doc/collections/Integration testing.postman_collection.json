@@ -195,7 +195,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{financeTrackerURL}}/currency-conversion/purchase/{{transactionId}}?targetCurrency=Real",
+					"raw": "{{financeTrackerURL}}/currency-conversion/purchase/{{transactionId}}?targetCurrency=Brazil-Real",
 					"host": [
 						"{{financeTrackerURL}}"
 					],
