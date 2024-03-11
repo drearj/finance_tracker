@@ -68,8 +68,6 @@ public class PurchaseTransaction {
         this.purchaseAmount = this.roundToNearestCent(purchaseAmount);
     }
 
-
-
     public String getCurrency() {
         return currency;
     }
