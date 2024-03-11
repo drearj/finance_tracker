@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Finance Tracker</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+      }
+
+      label {
+        margin-bottom: 5px;
+        color: #555;
+      }
+
+      input,
+      button,
+      select {
+        margin-bottom: 15px;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid #ddd;
+      }
+
+      thead {
+        background-color: #4caf50;
+        color: #fff;
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      #transaction-details {
+        display: none;
+        border-top: 1px solid #ddd;
+        padding-top: 20px;
+        margin-top: 20px;
+      }
+
+      #transaction-details h2 {
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      #transaction-details p {
+        margin: 5px 0;
+      }
+
+      #transaction-details span {
+        font-weight: bold;
+      }
+
+      #divConversion {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #conversion-details {
+        display: none;
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Finance Tracker</h1>
+      <form id="transaction-form">
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" />
+
+        <label for="currency">Currency:</label>
+        <input type="text" id="currency" name="currency" value="USD" disabled />
+
+        <label for="value">Value:</label>
+        <input type="number" id="value" name="value" />
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" />
+        <button id="submitButton" type="button">Add Transaction</button>
+      </form>
+      <table id="transactions-table">
+        <thead>
+          <tr>
+            <th>Identifier</th>
+            <th>Description</th>
+            <th>Currency</th>
+            <th>Value</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="6">Any register yet</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div id="divConversion">
+        <div id="transaction-details">
+          <h2>Transaction Details</h2>
+          <p>Identifier: <span id="conversion_identifier"></span></p>
+          <p>Description: <span id="conversion_description"></span></p>
+          <p>Currency: <span id="conversion_currency"></span></p>
+          <p>Date: <span id="conversion_date"></span></p>
+          <p>Value: <span id="conversion_value"></span></p>
+          <input type="text" id="newCurrency" placeholder="New Currency" />
+          <button type="button" id="convertButton">Convert</button>
+        </div>
+        <div id="conversion-details">
+          <p>Exchange rate: <span id="conversionExchangeRate"></span></p>
+          <p>Converted Amount: <span id="conversionConvertedAmount"></span></p>
+        </div>
+      </div>
+    </div>
+    <script>
+      const submitButton = document.getElementById("submitButton");
+
+      submitButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        const transactionId = submitButton.dataset.transactionId;
+
+        if (transactionId) {
+          updateTransaction(transactionId);
+        } else {
+          createTransaction();
+        }
+      });
+
+      document
+        .getElementById("transactions-table")
+        .addEventListener("click", function (event) {
+          const clickedElement = event.target;
+
+          if (clickedElement.tagName === "TD") {
+            const columnName = clickedElement.dataset.columnName;
+
+            if (columnName === "uuid") {
+              const transactionData = clickedElement.dataset.transaction;
+              showTransactionDetails(transactionData);
+            }
+          }
+        });
+
+      document
+        .getElementById("convertButton")
+        .addEventListener("click", function (event) {
+            const clickedElement = event.target;
+            const transactionData = clickedElement.dataset.transaction;
+            convertCurrency(transactionData);
+        });
+
+      const apiUrl = {
+        getTransactions: "/transactions",
+        createTransaction: "/transactions",
+        updateTransaction: (id) => `/transactions/${id}`,
+        getTransaction: (id) => `/transactions/${id}`,
+        deleteTransaction: (id) => `/transactions/${id}`,
+        conversion: (id, moeda) =>
+          `/currency-conversion/purchase/${id}?targetCurrency=${moeda}`,
+      };
+
+      async function fetchData(url, options) {
+        try {
+          const response = await fetch(url, options);
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const contentType = response.headers.get("content-type");
+
+          if (contentType && contentType.includes("application/json")) {
+            const jsonData = await response.json();
+            return jsonData;
+          } else {
+            return null;
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+
+      async function getTransactionData() {
+        const url = apiUrl.getTransactions;
+        const options = {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        };
+
+        try {
+          const data = await fetchData(url, options);
+          return data;
+        } catch (error) {
+          console.error("Error getting transaction data:", error);
+          window.alert("ERROR GETTING TRANSACTIONS: " + error);
+        }
+      }
+
+      function fillTable(transactions) {
+        const tableBody = document.querySelector("#transactions-table tbody");
+        tableBody.innerHTML = "";
+
+        if (transactions.length === 0) {
+          const newRow = document.createElement("tr");
+          const newCell = document.createElement("td");
+          newCell.setAttribute("colspan", "6");
+          newCell.textContent = "Any register yet";
+          newRow.appendChild(newCell);
+          tableBody.appendChild(newRow);
+        } else {
+          transactions.forEach((transaction) => {
+            const newRow = document.createElement("tr");
+
+            transaction.transactionDate = transaction.transactionDate.slice(
+              0,
+              10
+            );
+
+            const columns = [
+              "uuid",
+              "description",
+              "currency",
+              "purchaseAmount",
+              "transactionDate",
+            ];
+
+            columns.forEach((column) => {
+              const newCell = document.createElement("td");
+              newCell.setAttribute("data-column-name", column);
+              newCell.setAttribute(
+                "data-transaction",
+                JSON.stringify(transaction)
+              );
+              newCell.textContent = transaction[column];
+              newRow.appendChild(newCell);
+            });
+
+            const actionsCell = document.createElement("td");
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", () =>
+              deleteTransaction(transaction.id)
+            );
+            actionsCell.appendChild(deleteButton);
+
+            const editButton = document.createElement("button");
+            editButton.textContent = "Edit";
+            editButton.addEventListener("click", () =>
+              editTransaction(transaction)
+            );
+            actionsCell.appendChild(editButton);
+
+            newRow.appendChild(actionsCell);
+
+            tableBody.appendChild(newRow);
+          });
+        }
+      }
+
+      async function deleteTransaction(transactionId) {
+        const url = apiUrl.deleteTransaction(transactionId);
+        const options = {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        };
+
+        try {
+          await fetchData(url, options);
+          const updatedData = await getTransactionData();
+          fillTable(updatedData);
+        } catch (error) {
+          console.error("Error deleting transaction:", error);
+          window.alert("ERROR DELETING TRANSACTION: " + error);
+        }
+      }
+
+      function editTransaction(transaction) {
+        console.table(transaction);
+        document.getElementById("description").value = transaction.description;
+        document.getElementById("currency").value = transaction.currency;
+        document.getElementById("value").value = transaction.purchaseAmount;
+        document.getElementById("date").value =
+          transaction.transactionDate.slice(0, 10);
+
+        const submitButton = document.querySelector("#submitButton");
+        submitButton.textContent = "Update Transaction";
+        submitButton.dataset.transactionId = transaction.id;
+
+        document
+          .getElementById("transaction-form")
+          .addEventListener("submit", (event) => {
+            event.preventDefault();
+            updateTransaction(transaction.id);
+          });
+      }
+
+      async function updateTransaction(transactionId) {
+        const url = apiUrl.updateTransaction(transactionId);
+        const formData = {
+          description: document.getElementById("description").value,
+          currency: document.getElementById("currency").value,
+          purchaseAmount: parseFloat(document.getElementById("value").value),
+          transactionDate: document.getElementById("date").value,
+        };
+
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        };
+
+        try {
+          await fetchData(url, options);
+          resetForm();
+          const updatedData = await getTransactionData();
+          fillTable(updatedData);
+        } catch (error) {
+          console.error("Error updating transaction:", error);
+        }
+      }
+
+      function resetForm() {
+        document.getElementById("transaction-form").reset();
+        const submitButton = document.querySelector("#submitButton");
+        submitButton.textContent = "Add Transaction";
+
+        document
+          .getElementById("transaction-form")
+          .removeEventListener("submit", updateTransaction);
+      }
+
+      async function updateTable() {
+        const transactionData = await getTransactionData();
+        fillTable(transactionData);
+      }
+
+      async function createTransaction() {
+        const url = apiUrl.createTransaction;
+        const formData = {
+          description: document.getElementById("description").value,
+          currency: document.getElementById("currency").value,
+          purchaseAmount: parseFloat(document.getElementById("value").value),
+          transactionDate: document.getElementById("date").value,
+        };
+
+        const options = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        };
+
+        try {
+          await fetchData(url, options);
+          resetForm();
+          const updatedData = await getTransactionData();
+          fillTable(updatedData);
+        } catch (error) {
+          console.error("Error creating transaction:", error);
+        }
+      }
+
+      function showTransactionDetails(transactionData) {
+        const transaction = JSON.parse(transactionData);
+
+        document.getElementById("conversion_identifier").textContent =
+          transaction.uuid;
+        document.getElementById("conversion_description").textContent =
+          transaction.description;
+        document.getElementById("conversion_currency").textContent =
+          transaction.currency;
+
+        document.getElementById("conversion_date").textContent =
+          transaction.transactionDate;
+        document.getElementById("conversion_value").textContent =
+          transaction.purchaseAmount;
+
+        document
+          .getElementById("convertButton")
+          .setAttribute("data-transaction", transactionData);
+
+        document.getElementById("transaction-details").style.display = "block";
+      }
+
+      async function convertCurrency(transactionData) {
+        const transaction = JSON.parse(transactionData);
+        const convertionCurrencies = document.getElementById("newCurrency").value;
+
+        const url = apiUrl.conversion(transaction.id, convertionCurrencies);
+        const options = {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        };
+
+        try {
+          const data = await fetchData(url, options);
+          if(data){
+            document.getElementById("conversionExchangeRate").textContent = data.exchangeRate;
+            document.getElementById("conversionConvertedAmount").textContent = data.convertedAmount;
+            const divConversionDetails = document.getElementById('conversion-details');
+            divConversionDetails.style.display = "block";
+          }
+        } catch (error) {
+          window.alert("The purchase cannot be converted to the target currency");
+        }
+      }
+      updateTable();
+    </script>
+  </body>
+</html>
