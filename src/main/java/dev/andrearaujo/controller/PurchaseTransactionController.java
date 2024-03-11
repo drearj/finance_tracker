@@ -3,6 +3,7 @@ package dev.andrearaujo.controller;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,8 @@ public class PurchaseTransactionController {
     }
 
     @PostMapping
-    public PurchaseTransaction createTransaction(@RequestBody @Valid PurchaseTransaction transaction) {
+    public PurchaseTransaction createTransaction(@RequestBody @Valid PurchaseTransaction transaction, HttpServletResponse response) {
+        response.setStatus(201);
         return transactionService.saveTransaction(transaction);
     }
 
