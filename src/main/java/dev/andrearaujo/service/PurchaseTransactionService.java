@@ -22,7 +22,6 @@ public class PurchaseTransactionService {
 
     public PurchaseTransaction saveTransaction(PurchaseTransaction transaction) {
         transaction.setUuid(UUID.randomUUID());
-        transactionRepository.save(transaction);
         return transactionRepository.save(transaction);
     }
 
