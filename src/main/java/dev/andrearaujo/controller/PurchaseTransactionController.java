@@ -64,6 +64,11 @@ public class PurchaseTransactionController {
         return ResponseEntity.ok(updatedTransaction);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteTransaction(@PathVariable Long id) {
+        this.transactionService.deleteTransaction(id);
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

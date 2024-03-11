@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -44,5 +45,16 @@ public class PurchaseTransactionService {
         return this.transactionRepository.save(existingTransaction);
     }
 
+    public void deleteTransaction(Long transactionId) {
+        Optional<PurchaseTransaction> optionalTransaction = transactionRepository.findById(transactionId);
+
+        if (optionalTransaction.isPresent()) {
+            PurchaseTransaction transaction = optionalTransaction.get();
+            transaction.setDeleted(true);
+            transactionRepository.save(transaction);
+        } else {
+            throw new EntityNotFoundException("Transaction not found with id: " + transactionId);
+        }
+    }
 
 }
