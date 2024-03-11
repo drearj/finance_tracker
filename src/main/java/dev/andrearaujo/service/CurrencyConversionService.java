@@ -69,7 +69,8 @@ public class CurrencyConversionService {
             transaction.getPurchaseAmount(),
             exchangeRate.getExchange_rate(),
             convertedAmount.setScale(2, RoundingMode.HALF_UP),
-            exchangeRate.getCurrency()
+            exchangeRate.getCurrency(),
+            exchangeRate.getCountry_currency_desc()
         );
 
         return conversion;

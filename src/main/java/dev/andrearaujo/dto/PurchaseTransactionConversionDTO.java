@@ -11,6 +11,7 @@ public class PurchaseTransactionConversionDTO {
     private BigDecimal exchangeRate;
     private BigDecimal convertedAmount;
     private String currency;
+    private String countryCurrencyDesc;
     private UUID transactionUUID;
 
     public PurchaseTransactionConversionDTO(UUID transactionUUID,
@@ -19,7 +20,8 @@ public class PurchaseTransactionConversionDTO {
                                             BigDecimal originalPurchaseAmount,
                                             BigDecimal exchangeRate,
                                             BigDecimal convertedAmount,
-                                            String currency) {
+                                            String currency,
+                                            String countryCurrencyDesc) {
         this.transactionUUID = transactionUUID;
         this.description = description;
         this.transactionDate = transactionDate;
@@ -27,6 +29,7 @@ public class PurchaseTransactionConversionDTO {
         this.exchangeRate = exchangeRate;
         this.convertedAmount = convertedAmount;
         this.currency = currency;
+        this.countryCurrencyDesc = countryCurrencyDesc;
     }
 
     public UUID getTransactionUUID() {
@@ -78,4 +81,10 @@ public class PurchaseTransactionConversionDTO {
         this.currency = currency;
     }
 
+    public String getCountryCurrencyDesc() {
+        return countryCurrencyDesc;
+    }
+    public void setCountryCurrencyDesc(String countryCurrencyDesc) {
+        this.countryCurrencyDesc = countryCurrencyDesc;
+    }
 }

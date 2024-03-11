@@ -31,13 +31,13 @@ public class TreasuryApiServiceImpl implements TreasuryApiService {
         Date sixMonthsAgoDate = Date.from(sixMonthsAgo.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-        String filter = String.format("currency:eq:%s,effective_date:gte:%s,effective_date:lte:%s",
+        String filter = String.format("country_currency_desc:eq:%s,effective_date:gte:%s,effective_date:lte:%s",
                 currency,
                 dateFormatter.format(sixMonthsAgoDate),
                 dateFormatter.format(transactionDate)
         );
 
-        String fields = "country,currency,exchange_rate,effective_date";
+        String fields = "country,currency, country_currency_desc,exchange_rate,effective_date";
 
         String apiUrl = UriComponentsBuilder
                 .fromUriString(this.apiUrl + "/v1/accounting/od/rates_of_exchange")

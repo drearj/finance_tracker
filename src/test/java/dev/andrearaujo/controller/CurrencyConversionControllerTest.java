@@ -43,7 +43,8 @@ class CurrencyConversionControllerTest {
                 new BigDecimal("100.00"),
                 new BigDecimal("1.20"),
                 new BigDecimal("120.00"),
-                "EUR"
+                "EUR",
+                "European Pound"
         );
         when(currencyConversionService.convertPurchaseToCurrency(anyLong(), anyString())).thenReturn(mockedResult);
 

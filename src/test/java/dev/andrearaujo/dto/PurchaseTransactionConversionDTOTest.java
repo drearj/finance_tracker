@@ -18,10 +18,11 @@ class PurchaseTransactionConversionDTOTest {
         BigDecimal exchangeRate = BigDecimal.valueOf(5.0);
         BigDecimal convertedAmount = BigDecimal.valueOf(502.50);
         String currency = "USD";
+        String countryCurrencyDesc = "United States-Dollar";
 
         PurchaseTransactionConversionDTO purchaseTransactionConversionDTO =
                 new PurchaseTransactionConversionDTO(transactionUUID, description, transactionDate,
-                        originalPurchaseAmount, exchangeRate, convertedAmount, currency);
+                        originalPurchaseAmount, exchangeRate, convertedAmount, currency, countryCurrencyDesc);
 
         Assertions.assertEquals(transactionUUID, purchaseTransactionConversionDTO.getTransactionUUID());
         Assertions.assertEquals(description, purchaseTransactionConversionDTO.getDescription());
@@ -30,5 +31,6 @@ class PurchaseTransactionConversionDTOTest {
         Assertions.assertEquals(exchangeRate, purchaseTransactionConversionDTO.getExchangeRate());
         Assertions.assertEquals(convertedAmount, purchaseTransactionConversionDTO.getConvertedAmount());
         Assertions.assertEquals(currency, purchaseTransactionConversionDTO.getCurrency());
+        Assertions.assertEquals(countryCurrencyDesc, purchaseTransactionConversionDTO.getCountryCurrencyDesc());
     }
 }
