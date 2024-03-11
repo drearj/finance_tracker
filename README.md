@@ -20,7 +20,6 @@ The primary objectives of FinanceTracker include:
     - Retrieve stored purchase transactions and convert them to supported currencies based on the exchange rate for the transaction date.
     - Include details such as identifier, description, transaction date, original USD purchase amount, exchange rate used, and converted amount in the specified currency.
 
-## Documentation Template
 
 ### 1. Getting Started
 
@@ -34,3 +33,5 @@ The primary objectives of FinanceTracker include:
 git clone https://github.com/yourusername/FinanceTracker.git
 cd FinanceTracker
 ```
+## API Reference
+http://{YOUR_LOCAL_URL}/swagger-ui/index.html
