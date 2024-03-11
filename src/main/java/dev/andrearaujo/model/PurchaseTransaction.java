@@ -1,6 +1,5 @@
 package dev.andrearaujo.model;
 
-import dev.andrearaujo.enums.Currency;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -24,8 +23,7 @@ public class PurchaseTransaction {
     @NotNull(message = "Transaction date is required")
     private Date transactionDate;
 
-    @Enumerated(EnumType.STRING)
-    private Currency currency = Currency.USD;
+    private String currency = "USD";
 
     @Positive(message = "Purchase amount must be a positive value")
     private BigDecimal purchaseAmount;
@@ -70,10 +68,10 @@ public class PurchaseTransaction {
         this.uuid = uuid;
     }
 
-    public Currency getCurrency() {
+    public String getCurrency() {
         return currency;
     }
-    public void setCurrency(Currency currency) {
+    public void setCurrency(String currency) {
         this.currency = currency;
     }
 
