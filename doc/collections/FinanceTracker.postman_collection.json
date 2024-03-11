@@ -1,0 +1,169 @@
+{
+	"info": {
+		"_postman_id": "acf89b95-1bc1-449a-a0ec-ef9cd033a740",
+		"name": "FinanceTracker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23844067",
+		"_collection_link": "https://financers.postman.co/workspace/Issues~575d3528-3699-4482-ba2c-1513314b87c5/collection/23844067-acf89b95-1bc1-449a-a0ec-ef9cd033a740?action=share&source=collection_link&creator=23844067"
+	},
+	"item": [
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Transaction description\",\r\n    \"purchaseAmount\": 42.42,\r\n    \"transactionDate\": \"2024-03-11\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{financeTrackerURL}}/transactions",
+							"host": [
+								"{{financeTrackerURL}}"
+							],
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Update description\",\r\n    \"purchaseAmount\": 24.24,\r\n    \"transactionDate\": \"2024-03-10\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{financeTrackerURL}}/transactions/1",
+							"host": [
+								"{{financeTrackerURL}}"
+							],
+							"path": [
+								"transactions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{financeTrackerURL}}/transactions/1",
+							"host": [
+								"{{financeTrackerURL}}"
+							],
+							"path": [
+								"transactions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{financeTrackerURL}}/transactions",
+							"host": [
+								"{{financeTrackerURL}}"
+							],
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fiscal",
+			"item": [
+				{
+					"name": "Exchanges Rates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{fiscalURL}}/v1/accounting/od/rates_of_exchange?filter=currency:eq:Real,effective_date:gte:2001-06-30,effective_date:lte:2001-06-30&fields=country,currency,exchange_rate,effective_date",
+							"host": [
+								"{{fiscalURL}}"
+							],
+							"path": [
+								"v1",
+								"accounting",
+								"od",
+								"rates_of_exchange"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "currency:eq:Real,effective_date:gte:2001-06-30,effective_date:lte:2001-06-30"
+								},
+								{
+									"key": "fields",
+									"value": "country,currency,exchange_rate,effective_date"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Conversion",
+			"item": [
+				{
+					"name": "Do Conversion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{financeTrackerURL}}/currency-conversion/purchase/3?targetCurrency=Real",
+							"host": [
+								"{{financeTrackerURL}}"
+							],
+							"path": [
+								"currency-conversion",
+								"purchase",
+								"3"
+							],
+							"query": [
+								{
+									"key": "targetCurrency",
+									"value": "Real"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
