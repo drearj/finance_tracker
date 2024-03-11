@@ -40,6 +40,13 @@ public class PurchaseTransaction {
         return id;
     }
 
+    public UUID getUuid() {
+        return uuid;
+    }
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -61,12 +68,7 @@ public class PurchaseTransaction {
         this.purchaseAmount = this.roundToNearestCent(purchaseAmount);
     }
 
-    public UUID getUuid() {
-        return uuid;
-    }
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
+
 
     public String getCurrency() {
         return currency;
