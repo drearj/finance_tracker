@@ -18,9 +18,14 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'mysql:mysql-connector-java:8.0.28'
+	implementation 'org.springframework.boot:spring-boot-starter-validation:3.2.1'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	implementation 'mysql:mysql-connector-java:8.0.28'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 tasks.named('test') {
@@ -38,4 +43,8 @@ jar {
 
 application {
 	mainClassName = 'dev.andrearaujo.FinanceTrackerApplication'
+}
+
+compileJava {
+	options.compilerArgs += ["-parameters"]
 }
