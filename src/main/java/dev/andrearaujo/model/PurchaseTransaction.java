@@ -39,6 +39,9 @@ public class PurchaseTransaction {
     public Long getId() {
         return id;
     }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public UUID getUuid() {
         return uuid;
@@ -82,4 +85,5 @@ public class PurchaseTransaction {
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
+    public boolean isDeleted() { return this.deleted; }
 }
