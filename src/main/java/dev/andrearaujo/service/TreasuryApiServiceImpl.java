@@ -39,6 +39,9 @@ public class TreasuryApiServiceImpl implements TreasuryApiService {
 
         String fields = "country,currency, country_currency_desc,exchange_rate,effective_date";
 
+        System.out.println(String.format("[EXTERNAL API] - Requesting Treasure API :: " +
+                "GET rates_of_exchanges :: " +
+                "with currency %s and transaction date %s", currency, transactionDate));
         String apiUrl = UriComponentsBuilder
                 .fromUriString(this.apiUrl + "/v1/accounting/od/rates_of_exchange")
                 .queryParam("filter", filter)
