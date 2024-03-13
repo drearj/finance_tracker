@@ -49,6 +49,9 @@ You can access a basic API User Interface at:  http://localhost:8080/ui
 
 You can access the Api Reference at:  http://localhost:8080/swagger-ui/index.html
 
+![e6836b15-1775-4791-b8ca-7143937ee959](https://github.com/drearj/finance_tracker/assets/16170239/6c5446d5-f320-4c52-bbfb-d81e7a05839e)
+
+
 > [!WARNING]  
 > If you decide to use gradle instead of Docker to build and upload the project, you will need to provide a MySql server and configure credentials in src/main/java/resources/application.properties
 
