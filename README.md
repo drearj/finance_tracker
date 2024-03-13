@@ -42,6 +42,9 @@ docker-compose build
 docker-compose up -d
 ```
 
+> [!WARNING]  
+> If you decide to use gradle instead of Docker to build and upload the project, you will need to provide a MySql server and configure credentials in [application.properties](https://github.com/drearj/finance_tracker/blob/master/src/main/resources/application.properties)
+
 You can access a basic API User Interface at:  http://localhost:8080/ui
 
 ![finance-tracker-ui](https://github.com/drearj/finance_tracker/blob/master/doc/img/finance-tracker-ui.jpeg)
@@ -51,9 +54,6 @@ You can access the Api Reference at:  http://localhost:8080/swagger-ui/index.htm
 
 ![e6836b15-1775-4791-b8ca-7143937ee959](https://github.com/drearj/finance_tracker/assets/16170239/6c5446d5-f320-4c52-bbfb-d81e7a05839e)
 
-
-> [!WARNING]  
-> If you decide to use gradle instead of Docker to build and upload the project, you will need to provide a MySql server and configure credentials in src/main/java/resources/application.properties
 
 ### 2. Collections
 - You can use the project collections on path doc/collections to integrate with Postman
