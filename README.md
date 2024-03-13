@@ -24,14 +24,26 @@ The primary objectives of FinanceTracker include:
 ### 1. Getting Started
 
 #### Prerequisites
-- Java 8 or higher
-- Spring Boot
-- Maven
+- Docker: The FinanceTracker project runs within a Docker container. If you haven’t already installed Docker, follow the installation instructions for your operating system [here](https://docs.docker.com/engine/install).
 
-#### Installation
+#### Installation and Execution
+1. Clone the FinanceTracker repository
 ```bash
 git clone https://github.com/yourusername/FinanceTracker.git
 cd FinanceTracker
 ```
-## API Reference
-http://{YOUR_LOCAL_URL}/swagger-ui/index.html
+2. Build the Docker image:
+```bash
+docker-compose build
+```
+
+3. Run the container:
+```bash
+docker-compose up -d
+```
+
+You can access a basic API User Interface at:  http://localhost:8080/ui
+You can access the Api Reference at:  http://localhost:8080/swagger-ui/index.html
+
+> [!WARNING]  
+> If you decide to use gradle instead of Docker to build and upload the project, you will need to provide a MySql server and configure credentials in src/main/java/resources/application.properties
