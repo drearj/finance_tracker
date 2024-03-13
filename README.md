@@ -47,3 +47,6 @@ You can access the Api Reference at:  http://localhost:8080/swagger-ui/index.htm
 
 > [!WARNING]  
 > If you decide to use gradle instead of Docker to build and upload the project, you will need to provide a MySql server and configure credentials in src/main/java/resources/application.properties
+
+### 2. Collections
+- You can use the project collections on path doc/collections to integrate with Postman
