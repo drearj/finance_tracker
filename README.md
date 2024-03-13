@@ -43,6 +43,7 @@ docker-compose up -d
 ```
 
 You can access a basic API User Interface at:  http://localhost:8080/ui
+
 You can access the Api Reference at:  http://localhost:8080/swagger-ui/index.html
 
 > [!WARNING]  
