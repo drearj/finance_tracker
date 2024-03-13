@@ -44,6 +44,9 @@ docker-compose up -d
 
 You can access a basic API User Interface at:  http://localhost:8080/ui
 
+![finance-tracker-ui](https://github.com/drearj/finance_tracker/blob/master/doc/img/finance-tracker-ui.jpeg)
+
+
 You can access the Api Reference at:  http://localhost:8080/swagger-ui/index.html
 
 > [!WARNING]  
